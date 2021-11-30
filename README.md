@@ -1,4 +1,4 @@
-Sample spring app for testing Java Agent sql obfuscation of large parameters (10MB +)
+### Sample spring app for testing Java Agent sql obfuscation of large parameters (10MB +)
 Original source code from: https://github.com/spring-guides/gs-accessing-data-mysql
 
 There are two services - mysql and spring-app.  The spring-app has an endpoint `/add` that will insert 
