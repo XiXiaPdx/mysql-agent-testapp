@@ -1,0 +1,13 @@
+# gradle
+build/
+
+# intellij
+.idea/
+*.iml
+
+# Gradle
+out/
+.gradle/
+
+# Maven
+.mvn/

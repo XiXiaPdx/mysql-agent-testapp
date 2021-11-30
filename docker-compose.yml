@@ -1,0 +1,32 @@
+services:
+  mysql:
+    image: mysql
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+    environment:
+      - MYSQL_USER=springuser
+      - MYSQL_PASSWORD=ThePassword
+      - MYSQL_DATABASE=db_example
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - "./conf.d:/etc/mysql/conf.d:ro"
+
+# This will start both services but Intellij remote debugging into the spring-app does not work.
+# Specifically, the debugger will connect but no breakpoints in the agent will be hit.
+
+#  spring-app:
+#    build: .
+#    depends_on:
+#      - mysql
+#    ports:
+#      - "8080:8080"
+#      - "5005:5005"
+#    expose:
+#      - "8080"
+#    environment:
+#      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/db_example
+#      - NEW_RELIC_APP_NAME=${NEW_RELIC_APP_NAME}
+#      - NEW_RELIC_LICENSE_KEY=${NEW_RELIC_LICENSE_KEY}
+
