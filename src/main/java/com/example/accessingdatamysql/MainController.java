@@ -1,5 +1,6 @@
 package com.example.accessingdatamysql;
 
+import org.hibernate.id.UUIDGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 
 @Controller
 @RequestMapping(path="/demo")
@@ -25,7 +27,7 @@ public class MainController {
 
 	@PostMapping(path="/add") // Map ONLY POST Requests
 	public @ResponseBody String addNewUser () {
-		String name = "";
+		String largeParam = "";
 		String email = "doesnotmatter@com.com";
 
 		Resource resource= resourceLoader.getResource("classpath:/largeFile.txt");
@@ -35,13 +37,15 @@ public class MainController {
 			inputStream = resource.getInputStream();
 			Assert.notNull(inputStream,"Could not load template resource!");
 			byte[] bdata = FileCopyUtils.copyToByteArray(inputStream);
-			name = new String(bdata, StandardCharsets.UTF_8);
+			StringBuilder sb = new StringBuilder();
+			sb.append(UUID.randomUUID()).append(new String(bdata, StandardCharsets.UTF_8));
+			largeParam = sb.toString();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 		User n = new User();
-		n.setName(name);
+		n.setName(largeParam);
 		n.setEmail(email);
 		userRepository.save(n);
 		return "Saved";
