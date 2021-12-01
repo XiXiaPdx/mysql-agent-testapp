@@ -22,28 +22,18 @@ import java.util.UUID;
 public class MainController {
 	@Autowired
 	private UserRepository userRepository;
-	@Autowired
-	private ResourceLoader resourceLoader;
 
 	@PostMapping(path="/add") // Map ONLY POST Requests
 	public @ResponseBody String addNewUser () {
 		String largeParam = "";
 		String email = "doesnotmatter@com.com";
 
-		Resource resource= resourceLoader.getResource("classpath:/largeFile.txt");
-
-		InputStream inputStream= null;
-		try {
-			inputStream = resource.getInputStream();
-			Assert.notNull(inputStream,"Could not load template resource!");
-			byte[] bdata = FileCopyUtils.copyToByteArray(inputStream);
-			StringBuilder sb = new StringBuilder();
-			sb.append(UUID.randomUUID()).append(new String(bdata, StandardCharsets.UTF_8));
-			largeParam = sb.toString();
-		} catch (IOException e) {
-			e.printStackTrace();
+		StringBuilder sb = new StringBuilder();
+		sb.append(UUID.randomUUID());
+		for (int i = 0; i < 10000000 ; i++) {
+			sb.append("x");
 		}
-
+		largeParam = sb.toString();
 		User n = new User();
 		n.setName(largeParam);
 		n.setEmail(email);
